@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - OPTIONS
+            allowedHeaders:
+              - Authorization
+              - content-type
+      discovery:
+        locator:
+          lower-case-service-id: true
+          enabled: true
+    loadbalancer:
+      ribbon:
+        enabled: false
+
+eureka:
+  client:
+    fetchRegistry: true
+    register-with-eureka: false
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+server:
+  port: 8900
