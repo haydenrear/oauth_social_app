@@ -3,6 +3,7 @@ package com.app.backendforfrontend.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
@@ -41,7 +42,9 @@ public class Config {
     SecurityWebFilterChain filterChain(ServerHttpSecurity http){
         http.oauth2Client().and().csrf().disable()
                 .authorizeExchange(authorize -> authorize
-                        .anyExchange().authenticated()
+                        .pathMatchers(HttpMethod.GET, "/threadPost/**").authenticated()
+                        .pathMatchers(HttpMethod.GET, "/login/**").authenticated()
+                        .pathMatchers(HttpMethod.GET,"/**").permitAll()
                 ).oauth2Login()
                 .clientRegistrationRepository(googleRegistrationRepository())
                 .and().oauth2ResourceServer().jwt();
