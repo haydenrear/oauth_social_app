@@ -15,7 +15,12 @@ import org.springframework.security.oauth2.client.web.reactive.function.client.S
 import org.springframework.security.oauth2.jwt.NimbusReactiveJwtDecoder;
 import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.reactive.CorsConfigurationSource;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import java.util.List;
 
 @Configuration
 @EnableWebFluxSecurity
@@ -40,7 +45,7 @@ public class Config {
 
     @Bean
     SecurityWebFilterChain filterChain(ServerHttpSecurity http){
-        http.oauth2Client().and().csrf().disable()
+        http.oauth2Client().and()
                 .authorizeExchange(authorize -> authorize
                         .pathMatchers(HttpMethod.GET, "/threadPost/**").authenticated()
                         .pathMatchers(HttpMethod.GET, "/login/**").authenticated()

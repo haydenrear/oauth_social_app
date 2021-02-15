@@ -2,12 +2,15 @@ package com.app.backendforfrontend.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bson.types.ObjectId;
+import org.springframework.stereotype.Component;
 
 @Data
 @NoArgsConstructor
+@Component
 public class Post {
 
-    String id;
+    ObjectId id;
 
     String message;
 

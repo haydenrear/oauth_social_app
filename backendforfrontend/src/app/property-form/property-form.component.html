@@ -1,0 +1,48 @@
+<div class="propertyForm">
+<div>
+  <h1>Location</h1>
+  <mat-form-field hintLabel="Max 5 characters" appearance="fill">
+    <mat-label>Zipcode</mat-label>
+    <input matInput #zipcode maxlength="5" placeholder="Ex. 97212" [(ngModel)]="zipcodeModel">
+    <mat-hint align="end">{{zipcode.value?.length || 0}}/5</mat-hint>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>State</mat-label>
+    <input matInput #state maxlength="2" placeholder="Ex. OR" [(ngModel)]="stateModel">
+    <mat-hint align="end">{{state.value?.length || 0}}/2</mat-hint>
+  </mat-form-field>
+</div>
+
+<div>
+  <h1>Property Information</h1>
+  <mat-form-field appearance="fill">
+    <mat-label>Number of Bedrooms</mat-label>
+    <mat-select [(ngModel)]="numBedrooms">
+      <mat-option value="option">1</mat-option>
+      <mat-option value="option">2</mat-option>
+      <mat-option value="option">3</mat-option>
+      <mat-option value="option">4</mat-option>
+      <mat-option value="option">5</mat-option>
+      <mat-option value="option">6</mat-option>
+    </mat-select>
+    <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Number of Bathrooms</mat-label>
+    <mat-select [(ngModel)]="numBathrooms">
+      <mat-option value="option">1</mat-option>
+      <mat-option value="option">2</mat-option>
+      <mat-option value="option">3</mat-option>
+      <mat-option value="option">4</mat-option>
+      <mat-option value="option">5</mat-option>
+      <mat-option value="option">6</mat-option>
+    </mat-select>
+    <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+  </mat-form-field>
+  </div>
+  <div>
+    <h1>Please Upload Image of Property</h1>
+    <input type="file" [(ngModel)]="image">
+  </div>
+  <button mat-button color="primary" (click)="submit()">Submit Listing</button>
+</div>

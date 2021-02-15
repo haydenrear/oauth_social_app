@@ -6,14 +6,13 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
 @Data
 @NoArgsConstructor
+@Document
 public class Post {
 
     @Id
     ObjectId id;
-
     String message;
 
     public Post(String message) {

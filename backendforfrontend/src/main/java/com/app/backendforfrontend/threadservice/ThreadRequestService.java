@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import static org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction.clientRegistrationId;
@@ -21,15 +22,34 @@ public class ThreadRequestService {
         this.client = client;
     }
 
-    public Mono<ThreadPost> getThread(){
+    public Flux<ThreadPost> getThread(){
         return client
-                .get().uri(threadpostUrl+"/hello")
+                .get().uri(threadpostUrl+"/allThreads")
                 .attributes(clientRegistrationId("google"))
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .bodyToMono(ThreadPost.class);
+                .bodyToFlux(ThreadPost.class);
     }
 
+  public Mono<ThreadPost> sendThread(ThreadPost threadPost) {
+    return client
+      .post()
+      .uri(threadpostUrl+"/addThread")
+      .attributes(clientRegistrationId("google"))
+      .bodyValue(threadPost)
+      .accept(MediaType.APPLICATION_JSON)
+      .retrieve()
+      .bodyToMono(ThreadPost.class);
+  }
 
-
+  public Flux<ThreadPost> getThreadByZip(String zipcode) {
+    return client
+      .post()
+      .uri(threadpostUrl+"/findThreadByZip")
+      .attributes(clientRegistrationId("google"))
+      .body(zipcode, String.class)
+      .accept(MediaType.APPLICATION_JSON)
+      .retrieve()
+      .bodyToFlux(ThreadPost.class);
+  }
 }
