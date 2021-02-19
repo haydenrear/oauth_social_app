@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
@@ -21,6 +23,7 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
+import java.util.Properties;
 
 @Configuration
 @EnableWebFluxSecurity
@@ -28,8 +31,16 @@ public class Config {
 
     @Value("${google.auth.cert.enpoint}")
     String cert;
+    @Value("app.javamail.host")
+  private String mailHost;
+  @Value("app.javamail.port")
+  private int mailPort;
+  @Value("app.javamail.username")
+  private String mailUsername;
+  @Value("app.javamail.password")
+  private String mailPassword;
 
-    @Bean
+  @Bean
     ReactiveClientRegistrationRepository googleRegistrationRepository(){
         return new InMemoryReactiveClientRegistrationRepository(clientRegistrationGoogle());
     }
@@ -49,6 +60,7 @@ public class Config {
                 .authorizeExchange(authorize -> authorize
                         .pathMatchers(HttpMethod.GET, "/threadPost/**").authenticated()
                         .pathMatchers(HttpMethod.GET, "/login/**").authenticated()
+                        .pathMatchers(HttpMethod.GET, "/filterBy/**").permitAll()
                         .pathMatchers(HttpMethod.GET,"/**").permitAll()
                 ).oauth2Login()
                 .clientRegistrationRepository(googleRegistrationRepository())
@@ -88,6 +100,22 @@ public class Config {
     public WebClient webClient(ReactiveOAuth2AuthorizedClientManager authorizedClientManager, WebClient.Builder builder) {
         ServerOAuth2AuthorizedClientExchangeFilterFunction oauth =new ServerOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
         return builder.filter(oauth).build();
+    }
+
+    @Bean
+    public JavaMailSender javaMail(){
+      JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
+      javaMailSender.setHost(mailHost);
+      javaMailSender.setPort(mailPort);
+      javaMailSender.setUsername(mailUsername);
+      javaMailSender.setPassword(mailPassword);
+
+      Properties properties = javaMailSender.getJavaMailProperties();
+      properties.put("mail.transport.protocol", "smtp");
+      properties.put("mail.smtp.auth", "true");
+      properties.put("mail.smtp.starttls.enable", "true");
+      properties.put("mail.debug", "true");
+      return javaMailSender;
     }
 
 }

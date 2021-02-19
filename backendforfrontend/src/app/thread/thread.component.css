@@ -1,0 +1,28 @@
+.matCards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: auto;
+}
+
+.mat-card {
+  max-width: 400px;
+  display: flex;
+}
+
+.pleaseLogin {
+  height: 100vh;
+  margin: auto;
+}
+
+.propertyFilter {
+  padding: 10px;
+}
+
+mat-form-field.stretch {
+  width: 80%;
+}
+
+.stretch {
+  width: 80%;
+}

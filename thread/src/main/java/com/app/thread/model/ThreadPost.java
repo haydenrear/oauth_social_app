@@ -7,9 +7,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.bson.BSONObject;
 import org.bson.types.ObjectId;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -17,10 +19,12 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Component
+@Scope("prototype")
 public class ThreadPost {
 
     @Id
-    ObjectId id;
+    String id;
 
     List<Post> posts;
 
@@ -29,12 +33,16 @@ public class ThreadPost {
 
     Region region;
     String email;
+    int numBedrooms;
+    int numBathrooms;
 
-    public ThreadPost(List<Post> posts, String name, byte[] image, Region region, String email) {
+    public ThreadPost(List<Post> posts, String name, byte[] image, Region region, String email, int numBedrooms, int numBathrooms) {
         this.posts = posts;
         this.name = name;
         this.image = image;
         this.region = region;
-        this.email= email;
+        this.email = email;
+        this.numBedrooms = numBedrooms;
+        this.numBathrooms = numBathrooms;
     }
 }

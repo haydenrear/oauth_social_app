@@ -9,6 +9,7 @@ import com.app.thread.repo.ThreadRepo;
 import com.app.thread.service.RegionService;
 import com.app.thread.service.ThreadService;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -30,7 +31,7 @@ public class RouterController {
 
 
     @Bean
-    public CommandLineRunner initBean(PostRepo postRepo, ThreadService threadService, RegionRepo regionRepo, RegionService regionService) throws IOException {
+    public CommandLineRunner initBean(PostRepo postRepo, ThreadService threadService, RegionRepo regionRepo, RegionService regionService, ApplicationContext ctx) throws IOException {
         InputStream inputStream = new FileInputStream(new ClassPathResource("shiba.jpg").getFile());
         byte [] shiba = inputStream.readAllBytes();
         return command -> {
@@ -39,8 +40,8 @@ public class RouterController {
                     .map(postRepo::save)
                     .forEach(postMono -> postMono.subscribe(post -> {
                         List<Post> postList = List.of(post, post, post, post);
-                        Region region = new Region(null, null, "97219", "2085 okay", "OR", "midwest", null);
-                        ThreadPost threadPost = new ThreadPost(postList, "newPost", shiba, region, "someEmail@email.com");
+                        Region region = ctx.getBean(Region.class, "97219", "2085 oakmont way, Eugene OR", "Oregon", "midwest", "eugene");
+                        ThreadPost threadPost = new ThreadPost(postList, "newPost", shiba, region, "someEmail@email.com", 1, 1);
                         threadService.addThread(threadPost)
                                 .map(threadPost1 -> {
                                     Region innerRegion = threadPost1.getRegion();

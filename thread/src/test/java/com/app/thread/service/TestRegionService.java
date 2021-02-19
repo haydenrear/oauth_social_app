@@ -1,22 +1,20 @@
-package com.app.thread.region;
+package com.app.thread.service;
 
 import com.app.thread.model.Region;
-import com.app.thread.service.RegionService;
-import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.geo.Point;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.core.geo.GeoJsonPolygon;
-import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+import reactor.util.function.Tuple2;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
 @Slf4j
+@SpringBootTest
 public class TestRegionService {
 
     @Autowired
@@ -26,13 +24,13 @@ public class TestRegionService {
 
     @BeforeEach
     public void BeforeEach(){
-       region =  new Region(null, null, "97219", null, null, null, null);
+       region =  new Region("97219", "2085 Oakmont Way", "OR", "midwest", "Eugene");
     }
 
     @Test
     public void testJsonMapper(){
         Mono<String> returnStringMono = regionService
-                .getDataFromGoogleByZip(region);
+                .getDataFromGoogle(region.getZip());
         String returnString = returnStringMono.block();
         log.info(returnString);
         assertThat(returnString).isNotNull();
@@ -41,19 +39,25 @@ public class TestRegionService {
     @Test
     public void testParser(){
         Mono<String> returnStringMono = regionService
-                .getDataFromGoogleByZip(region);
+                .getDataFromGoogle(region.getAddress());
         String returnString = returnStringMono.block();
-        GeoJsonPolygon point = regionService.parseData(returnString);
-        assertThat(point.getCoordinates()).isNotNull();
+        Tuple2<GeoJsonPolygon, GeoJsonPoint> point = regionService.parseData(returnString);
+        assertThat(point.getT1()).isNotNull();
     }
 
     @Test
     public void testSaving(){
         regionService.saveRegionWithPoint(region)
                 .map(regionReturn -> {
-                    assertThat(regionReturn.getPolygon()).isNotNull();
+                    assertThat(regionReturn.getZipPoly()).isNotNull();
                     return regionReturn;
                 }).subscribe();
+    }
+
+    @Test
+    public void findRegion(){
+        regionService.findRegionsNearAny("Oregon")
+                .subscribe(System.out::println);
     }
 
 }

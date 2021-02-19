@@ -22,6 +22,8 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatInputModule} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
+import {ThreadItemServiceService} from "./thread-item-service.service";
+import { AppEmailMessageComponent } from './app-email-message/app-email-message.component';
 
 @NgModule({
   declarations: [
@@ -31,10 +33,10 @@ import {MatButtonModule} from "@angular/material/button";
     ThreadComponent,
     PropertyComponent,
     PropertyFormComponent,
-    TabDirective,
     ThreadItemComponent,
     PostComponent,
     RegionComponent,
+    AppEmailMessageComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,9 +51,9 @@ import {MatButtonModule} from "@angular/material/button";
     MatSelectModule,
     MatInputModule,
     FormsModule,
-    MatButtonModule
+    MatButtonModule,
   ],
-  providers: [],
+  providers: [ThreadItemServiceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

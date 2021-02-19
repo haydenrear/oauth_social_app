@@ -1,6 +1,6 @@
-<mat-tab-group (selectedTabChange)="goToProperties($event)">
+<mat-tab-group class="menu" (selectedTabChange)="goToProperties($event)">
   <mat-tab label="View Properties"></mat-tab>
-  <mat-tab label="Login"></mat-tab>
+  <div *ngIf="[notLoggedIn]===true"><mat-tab label="Login"></mat-tab></div>
   <mat-tab label="Add Property"></mat-tab>
 </mat-tab-group>
 <router-outlet></router-outlet>

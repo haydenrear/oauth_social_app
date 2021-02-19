@@ -1,3 +1,22 @@
-<div *ngFor="let thread of threadItem">
-  <app-property [threadItem]="thread" class="mat-card" style="max-width: 400px"></app-property>
+<!--<div *ngIf="" class="pleaseLogin">-->
+<!--  <h1 class="centered">Please Login To View Properties</h1>-->
+<!--</div>-->
+<form class="centered propertyFilter" (ngSubmit)="filterByFunc()">
+  <mat-form-field appearance="fill" class="stretch">
+    <mat-label></mat-label>
+    <input matInput placeholder="Enter Zip or State Here" name="filter" id="filter" [(ngModel)]="filter">
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="stretch">
+    <mat-label>Select</mat-label>
+    <mat-select name="filterBy" id="filterBy" [(ngModel)]="filterBy">
+      <mat-option value="zipcode">Zipcode</mat-option>
+      <mat-option value="state">State</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-button type="submit" color="primary" class="stretch">Filter Properties</button>
+</form>
+<div class="matCards" >
+  <div *ngFor="let thread of threadItem">
+    <app-property [threadItem]="thread" class="mat-card" ></app-property>
+  </div>
 </div>

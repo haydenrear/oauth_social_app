@@ -1,14 +1,13 @@
 package com.app.thread.service;
 
 import com.app.thread.model.Region;
+import com.app.thread.model.ThreadPost;
 import com.app.thread.repo.RegionRepo;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.geo.Point;
-import org.springframework.data.geo.Polygon;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.core.geo.GeoJsonPolygon;
@@ -17,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.util.function.Tuple2;
+import reactor.util.function.Tuples;
 
 @Service
 public class RegionService {
@@ -36,26 +37,28 @@ public class RegionService {
     WebClient webClient;
 
     public Mono<Region> saveRegionWithPoint(Region regionIn){
-        return setPoint(regionIn)
+        return setPointZip(regionIn)
             .flatMap(point -> regionRepo.save(regionIn));
     }
 
-    public Mono<GeoJsonPolygon> setPoint(Region regionIn){
-        return getDataFromGoogleByZip(regionIn)
+    public Mono<GeoJsonPolygon> setPointZip(Region regionIn){
+        return getDataFromGoogle(regionIn.getZip())
                 .map(this::parseData)
-                .doOnNext(regionIn::setPolygon);
+                .doOnNext(regionIn::setLocation)
+                .map(Tuple2::getT1);
     }
 
-    public Mono<String> getDataFromGoogleByZip(Region region){
+
+    public Mono<String> getDataFromGoogle(String byBlank){
         return webClient
                 .get()
-                .uri(GEOCODEAPIURL+region.getZip()+"&key="+GEOCODEAPIKEY)
+                .uri(GEOCODEAPIURL+byBlank+"&key="+GEOCODEAPIKEY)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(String.class);
     }
 
-    public GeoJsonPolygon parseData(String dataToParse){
+    public Tuple2<GeoJsonPolygon, GeoJsonPoint> parseData(String dataToParse){
             try {
                 JSONParser jsonParser = new JSONParser();
                 JSONObject parse = (JSONObject) jsonParser.parse(dataToParse);
@@ -76,17 +79,17 @@ public class RegionService {
                 double ySoutheast = southwestPoint.getY();
                 GeoJsonPoint finishLoop = new GeoJsonPoint(southwestPoint.getX(), northeastPoint.getY());
                 GeoJsonPoint southeastPoint = new GeoJsonPoint(xSoutheast, ySoutheast);
-                return new GeoJsonPolygon(northwestPoint, southwestPoint, southeastPoint, northeastPoint, finishLoop);
+                return Tuples.of(new GeoJsonPolygon(northwestPoint, southwestPoint, southeastPoint, northeastPoint, finishLoop), locationPoint);
             } catch (ParseException ie) {
                 ie.printStackTrace();
             }
             return null;
     }
 
-    public Flux<Region> findPropertiesNear(Region region){
-        return null;
+    public Flux<Region> findRegionsNearAny(String any) {
+        return getDataFromGoogle(any)
+                .map(this::parseData)
+                .map(Tuple2::getT1)
+                .flatMapMany(regionRepo::findByLocationIsWithin);
     }
-
-
-
 }

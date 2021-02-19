@@ -47,7 +47,7 @@ public class MongoConfig extends AbstractReactiveMongoConfiguration {
         MongoClient client = MongoClients.create(settings);
         client.getDatabase(getDatabaseName())
                 .getCollection("region")
-                .createIndex(Indexes.geo2dsphere("polygon"));
+                .createIndex(Indexes.geo2dsphere("zipPoly"));
         return client;
     }
 

@@ -1,6 +1,18 @@
 <div class="propertyForm">
-<div>
+  <div>
+<div class="matformItem">
   <h1>Location</h1>
+  <div class="fitWidth">
+    <h3>Address</h3>
+    <mat-form-field hintLabel="Enter Street Address Here" appearance="fill">
+      <mat-label>Street Number</mat-label>
+      <input matInput placeholder="Ex. 1234" [(ngModel)]="streetNumberModel">
+    </mat-form-field>
+    <mat-form-field hintLabel="Enter Street Address Here" appearance="fill">
+      <mat-label>Street</mat-label>
+      <input matInput placeholder="Ex. Okay Way" [(ngModel)]="streetModel">
+    </mat-form-field>
+  </div>
   <mat-form-field hintLabel="Max 5 characters" appearance="fill">
     <mat-label>Zipcode</mat-label>
     <input matInput #zipcode maxlength="5" placeholder="Ex. 97212" [(ngModel)]="zipcodeModel">
@@ -13,7 +25,7 @@
   </mat-form-field>
 </div>
 
-<div>
+<div class="matformItem">
   <h1>Property Information</h1>
   <mat-form-field appearance="fill">
     <mat-label>Number of Bedrooms</mat-label>
@@ -44,5 +56,5 @@
     <h1>Please Upload Image of Property</h1>
     <input type="file" [(ngModel)]="image">
   </div>
-  <button mat-button color="primary" (click)="submit()">Submit Listing</button>
+  <button class="center" mat-button color="primary" (click)="submit()">Submit Listing</button>
 </div>

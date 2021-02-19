@@ -11,4 +11,9 @@ body {
   background-color: white;
   padding: 40px;
   margin: auto;
+  max-width: 1048px;
+}
+
+.centered {
+  text-align: center;
 }

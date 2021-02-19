@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {MatTabChangeEvent} from "@angular/material/tabs";
+import {UserService} from "../user.service";
 
 @Component({
   selector: 'app-menu',
@@ -9,9 +10,9 @@ import {MatTabChangeEvent} from "@angular/material/tabs";
 })
 export class MenuComponent implements OnInit {
 
+  notLoggedIn: boolean;
 
-  constructor(private router: Router) {
-    this.router = router;
+  constructor(private router: Router, private userService: UserService) {
   }
 
   goToProperties($event: MatTabChangeEvent) {
@@ -35,5 +36,8 @@ export class MenuComponent implements OnInit {
 
   ngOnInit(): void{
     this.router.navigate(["thread"]);
+    this.userService.loggedInBroad.subscribe(notLoggedIn => {
+      this.notLoggedIn = notLoggedIn;
+    });
   }
 }

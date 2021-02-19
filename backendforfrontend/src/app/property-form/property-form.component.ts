@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ThreadItemComponent} from "../thread-item/thread-item.component";
 import {RegionComponent} from "../region/region.component";
+import {StateConverterService} from "../state-converter.service";
 
 @Component({
   selector: 'app-property-form',
@@ -18,8 +19,10 @@ export class PropertyFormComponent implements OnInit {
 
   threadItem: ThreadItemComponent;
   region: RegionComponent;
+  streetModel: string;
+  streetNumberModel: string;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private stateConvert: StateConverterService) { }
 
   ngOnInit(): void {
   }
@@ -27,9 +30,11 @@ export class PropertyFormComponent implements OnInit {
   submit() {
     console.log(this.zipcodeModel);
     this.region.zip = this.zipcodeModel;
-    this.region.address = "";
-    this.region.state = this.stateModel;
+    this.region.address = this.streetNumberModel+" "+this.streetModel+" "+this.stateModel+", "+this.stateModel;
+    this.region.state = this.stateConvert.convertRegion(this.stateModel, this.stateConvert.TO_NAME);
     this.threadItem.region = this.region;
-    this.http.post("/newProperty", this.threadItem);
+    this.http.post<ThreadItemComponent>("/newProperty", this.threadItem)
+      .subscribe(returnThreadItemComponent => this.threadItem.id = returnThreadItemComponent.id);
   }
+
 }

@@ -9,5 +9,5 @@ import reactor.core.publisher.Flux;
 
 @Repository
 public interface RegionRepo extends ReactiveMongoRepository<Region, String> {
-    Flux<Region> findByPolygonIsWithin(GeoJsonPolygon geoJsonPolygon);
+    Flux<Region> findByLocationIsWithin(GeoJsonPolygon geoJsonPolygon);
 }

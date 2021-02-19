@@ -1,0 +1,9 @@
+.centered {
+  text-align: center;
+  display: flex;
+  align-items: stretch;
+}
+
+.stretch {
+  width: 100%;
+}

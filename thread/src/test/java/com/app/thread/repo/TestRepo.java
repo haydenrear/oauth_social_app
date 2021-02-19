@@ -48,7 +48,7 @@ public class TestRepo {
 
     @BeforeEach
     public void BeforeEach(){
-        region =  new Region(null, null, "97219", null, null, null, null);
+        region =  new Region("97219", "2085 Oakmont Way", "OR", "midwest", "Eugene");
         regionRepo.save(region).subscribe();
     }
 
@@ -87,8 +87,8 @@ public class TestRepo {
 
     @Test
     public void testRegionRepoFindNear(){
-        Mono<GeoJsonPolygon> poly = regionService.setPoint(region);
-        poly.map(polygon -> regionRepo.findByPolygonIsWithin(polygon).subscribe(System.out::println))
+        Mono<GeoJsonPolygon> poly = regionService.setPointZip(region);
+        poly.map(polygon -> regionRepo.findByLocationIsWithin(polygon).subscribe(System.out::println))
                 .subscribe(System.out::println);
     }
 

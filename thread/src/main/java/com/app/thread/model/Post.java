@@ -5,14 +5,16 @@ import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.stereotype.Component;
 
 @Data
 @NoArgsConstructor
 @Document
+@Component
 public class Post {
 
     @Id
-    ObjectId id;
+    String id;
     String message;
 
     public Post(String message) {

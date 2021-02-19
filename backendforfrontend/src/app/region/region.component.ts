@@ -14,6 +14,10 @@ export class RegionComponent implements OnInit {
   address: string;
   state: string;
   region: string;
+  id: string;
+  threadPostId: string;
+  city: string;
+
 
   ngOnInit(): void {
   }

@@ -6,6 +6,7 @@ import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
@@ -40,7 +41,7 @@ public class GatewayConfig {
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         http
-                .csrf().and()
+                .csrf().disable()
                 .authorizeExchange(auth -> auth
                         .anyExchange().permitAll()
                 );
