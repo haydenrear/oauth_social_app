@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.4.2</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.app</groupId>
+    <artifactId>parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>parent</name>
+    <description>Parent</description>
+    <packaging>pom</packaging>
+    <properties>
+        <java.version>11</java.version>
+        <spring-cloud.version>2020.0.0-M5</spring-cloud.version>
+        <docker.image.prefix>com.app</docker.image.prefix>
+        <dockerfile-maven-version>1.4.13</dockerfile-maven-version>
+        <docker.image.jar>${project.name}-0.0.1-SNAPSHOT.jar</docker.image.jar>
+    </properties>
+
+    <modules>
+        <module>backendforfrontend</module>
+        <module>gateway</module>
+        <module>servicediscovery</module>
+        <module>thread</module>
+    </modules>
+
+    <build>
+<!--        <plugins>-->
+<!--            <plugin>-->
+<!--                <groupId>com.spotify</groupId>-->
+<!--                <artifactId>dockerfile-maven-plugin</artifactId>-->
+<!--                <version>${dockerfile-maven-version}</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>default</id>-->
+<!--                        <goals>-->
+<!--                            <goal>build</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--                <configuration>-->
+<!--                    <repository>com/app/${project.name}</repository>-->
+<!--                    <tag>${project.version}</tag>-->
+<!--                    <dockerfile>Dockerfile</dockerfile>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+<!--        </plugins>-->
+    </build>
+</project>
