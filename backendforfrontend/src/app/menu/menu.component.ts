@@ -10,7 +10,7 @@ import {UserService} from "../user.service";
 })
 export class MenuComponent implements OnInit {
 
-  notLoggedIn: boolean;
+  notLoggedIn: boolean = true;
 
   constructor(private router: Router, private userService: UserService) {
   }
@@ -35,9 +35,11 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit(): void{
-    this.router.navigate(["thread"]);
+    this.userService.notLoggedInFunc();
     this.userService.loggedInBroad.subscribe(notLoggedIn => {
+      console.log(notLoggedIn, " is the console not logged in - should be true to show menu login");
       this.notLoggedIn = notLoggedIn;
     });
+    this.router.navigate(["thread"]);
   }
 }

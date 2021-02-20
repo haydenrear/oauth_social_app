@@ -31,14 +31,14 @@ public class Config {
 
     @Value("${google.auth.cert.enpoint}")
     String cert;
-    @Value("app.javamail.host")
-  private String mailHost;
-  @Value("app.javamail.port")
-  private int mailPort;
-  @Value("app.javamail.username")
-  private String mailUsername;
-  @Value("app.javamail.password")
-  private String mailPassword;
+    @Value("${app.javamail.host}")
+    private String mailHost;
+    @Value("${app.javamail.port}")
+    private int mailPort;
+    @Value("${app.javamail.username}")
+    private String mailUsername;
+    @Value("${app.javamail.password}")
+    private String mailPassword;
 
   @Bean
     ReactiveClientRegistrationRepository googleRegistrationRepository(){

@@ -8,7 +8,7 @@ import {BehaviorSubject} from "rxjs";
 })
 export class UserService {
 
-  notLoggedIn: boolean;
+  notLoggedIn: boolean = true;
 
   loggedInBroad: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true)
 
@@ -18,10 +18,14 @@ export class UserService {
     this.http.get<boolean>("/isLoggedIn")
       .pipe(
         map(returnVal => {
-          console.log(returnVal);
-          this.notLoggedIn= returnVal;
-          this.loggedInBroad.next(returnVal);
-          return returnVal;
+          if(returnVal === true || returnVal === false){
+            console.log(returnVal);
+            this.notLoggedIn= returnVal;
+            this.loggedInBroad.next(returnVal);
+          }
+          else {
+            return true;
+          }
         })
       )
       .subscribe();

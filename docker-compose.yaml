@@ -1,0 +1,41 @@
+version: '3'
+services:
+    servicediscovery:
+        build: ./servicediscovery
+        # Mapping of container port to host
+        ports:
+          - "8761:5000"
+
+    gateway:
+        build: ./gateway
+        # Mapping of container port to host
+        ports:
+          - "8900:5000"
+
+    thread:
+        build: ./thread
+        # Mapping of container port to host
+        ports:
+          - "9000:5000"
+        # Link database container to app container
+        # for rechability.
+        links:
+          - "mongo:thread"
+        depends_on:
+          - mongo
+
+    backendforfrontend:
+        build: ./backendforfrontend
+        # Mapping of container port to host
+        ports:
+          - "9002:5000"
+
+
+    mongo:
+      # image to fetch from docker hub
+      build:
+        context: ./mongo
+        dockerfile: Dockerfile-mongo
+      environment:
+        ME_CONFIG_MONGODB_ADMINUSERNAME: ***REMOVED***
+        ME_CONFIG_MONGODB_ADMINPASSWORD: ***REMOVED***

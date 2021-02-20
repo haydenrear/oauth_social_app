@@ -11,7 +11,7 @@
     <form #message="ngForm" (submit)="addMessage()" class="stretch">
     <mat-form-field appearance="fill" class="stretch">
       <mat-label>Show Interest</mat-label>
-      <textarea matInput #messageIn class="stretch" [(ngModel)]="emailMessage.text"></textarea>
+      <textarea matInput #messageIn class="stretch" [(ngModel)]="emailMessage.text" name="text"></textarea>
     </mat-form-field>
       <button mat-button type="submit" color="primary" class="stretch">Submit Interest (Please Include Point of Contact)</button>
     </form>

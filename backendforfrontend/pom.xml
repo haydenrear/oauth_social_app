@@ -3,16 +3,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.2</version>
-        <relativePath/> <!-- lookup parent from repository -->
+      <groupId>com.app</groupId>
+      <artifactId>parent</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+      <relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.app</groupId>
-    <artifactId>backendforfrontend</artifactId>
+  <artifactId>backendforfrontend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>backendforfrontend</name>
     <description>Backend for the frontend, to uniform api for microservices</description>
+  <packaging>jar</packaging>
     <properties>
         <java.version>11</java.version>
         <spring-cloud.version>2020.0.0-M5</spring-cloud.version>

@@ -22,7 +22,7 @@ export class ThreadItemComponent implements OnInit {
 
   region: RegionComponent;
   posts: PostComponent [];
-  emailMessage: AppEmailMessageComponent;
+  emailMessage: AppEmailMessageComponent = new AppEmailMessageComponent();
 
   constructor(private threadService: ThreadItemServiceService,
               private http: HttpClient,

@@ -18,6 +18,7 @@
       <module name="backendforfrontend" target="11" />
       <module name="email" target="11" />
       <module name="gateway" target="11" />
+      <module name="parent" target="11" />
       <module name="servicediscovery" target="11" />
       <module name="thread" target="11" />
     </bytecodeTargetLevel>
@@ -27,6 +28,7 @@
       <module name="backendforfrontend" options="-parameters" />
       <module name="email" options="-parameters" />
       <module name="gateway" options="-parameters" />
+      <module name="parent" options="-parameters" />
       <module name="servicediscovery" options="-parameters" />
       <module name="thread" options="-parameters" />
     </option>

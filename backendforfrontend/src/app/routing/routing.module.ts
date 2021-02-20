@@ -11,7 +11,7 @@ const routes: Routes = [
   {path: 'thread', component: ThreadComponent},
   {path: 'login', component: LoginComponent},
   {path: 'propertyForm', component: PropertyFormComponent},
-  {path: 'threadItem/:id', component: ThreadItemComponent}
+  {path: 'threadItem/:id', component: ThreadItemComponent},
 ];
 
 @NgModule({

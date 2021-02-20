@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {ThreadItemServiceService} from "../thread-item-service.service";
 import {map} from "rxjs/internal/operators";
 import {Scheduler} from "rxjs/internal/Rx";
+import {UserService} from "../user.service";
 
 @Component({
   selector: 'app-thread',
@@ -25,7 +26,7 @@ export class ThreadComponent implements OnInit {
       .subscribe(thread => this.threadItem = thread);
   }
 
-  constructor(private http: HttpClient, private threadService: ThreadItemServiceService) { }
+  constructor(private http: HttpClient, private threadService: ThreadItemServiceService, private userService: UserService) { }
 
   ngOnInit(): void {
     this.http.get<ThreadItemComponent []>("/threadPost")
