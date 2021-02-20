@@ -30,7 +30,7 @@ public class RouterController {
 
 
 
-    @Bean
+//    @Bean
     public CommandLineRunner initBean(PostRepo postRepo, ThreadService threadService, RegionRepo regionRepo, RegionService regionService, ApplicationContext ctx) throws IOException {
         InputStream inputStream = new FileInputStream(new ClassPathResource("shiba.jpg").getFile());
         byte [] shiba = inputStream.readAllBytes();
