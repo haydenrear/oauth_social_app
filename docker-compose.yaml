@@ -28,7 +28,7 @@ services:
       build: ./thread
       # Mapping of container port to host
       ports:
-        - "9000:9000"
+        - "80:9000"
       # Link database container to app container
       # for rechability.
       expose:
@@ -62,4 +62,3 @@ services:
 networks:
   this-services-network:
     driver: bridge
-    name: this-services-network
