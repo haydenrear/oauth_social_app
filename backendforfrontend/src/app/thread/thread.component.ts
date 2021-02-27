@@ -1,12 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {ThreadItemComponent} from "../thread-item/thread-item.component";
-import {NgForm} from "@angular/forms";
-import {Router} from "@angular/router";
+import {ThreadItemDTO} from "../thread-item/thread-item.component";
 import {ThreadItemServiceService} from "../thread-item-service.service";
-import {map} from "rxjs/internal/operators";
-import {Scheduler} from "rxjs/internal/Rx";
-import {UserService} from "../user.service";
 
 @Component({
   selector: 'app-thread',
@@ -15,25 +10,25 @@ import {UserService} from "../user.service";
 })
 export class ThreadComponent implements OnInit {
 
-  threadItem: ThreadItemComponent [] = [];
+  threadItem: ThreadItemDTO [] = [];
   filterStuff: any;
   filter: string;
   filterBy: string;
+  city: any;
 
   filterByFunc(){
-    console.log(this.filter+this.filterBy);
-    this.http.get<ThreadItemComponent []>("/filterBy/"+this.filter+"/"+this.filterBy)
-      .subscribe(thread => this.threadItem = thread);
+    this.threadService.filterThreads(this.city, this.filterBy, this.filter)
+      .subscribe(threads => {
+        this.threadItem = threads;
+      });
   }
 
-  constructor(private http: HttpClient, private threadService: ThreadItemServiceService, private userService: UserService) { }
+  constructor(private http: HttpClient, private threadService: ThreadItemServiceService) { }
 
   ngOnInit(): void {
-    this.http.get<ThreadItemComponent []>("/threadPost")
-      .subscribe(item => {
-       this.threadItem = item;
-       this.threadService.addThreads(item);
-       console.log(item);
-    });
+    this.threadService.getThreads()
+      .subscribe(threads => {
+        this.threadItem = threads;
+      });
   }
 }

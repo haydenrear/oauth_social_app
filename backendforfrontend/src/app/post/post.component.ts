@@ -9,6 +9,7 @@ export class PostComponent implements OnInit {
 
   id: string;
   message: string;
+  fromEmail: string;
 
   constructor() { }
 

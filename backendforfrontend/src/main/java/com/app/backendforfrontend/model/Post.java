@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 public class Post {
 
     String id;
-
     String message;
+    String fromEmail;
 
     public Post(String message) {
         this.message = message;

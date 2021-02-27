@@ -24,7 +24,7 @@ public class TestRegionService {
 
     @BeforeEach
     public void BeforeEach(){
-       region =  new Region("97219", "2085 Oakmont Way", "OR", "midwest", "Eugene");
+       region =  new Region("97219", "2085 Oakmont Way", "OR", "Eugene");
     }
 
     @Test

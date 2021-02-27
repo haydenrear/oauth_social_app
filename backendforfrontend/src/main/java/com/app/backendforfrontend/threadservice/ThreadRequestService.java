@@ -6,6 +6,7 @@ import com.netflix.discovery.shared.Pair;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
+import org.springframework.http.codec.multipart.Part;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -16,6 +17,8 @@ import reactor.core.publisher.Mono;
 import reactor.util.function.Tuple2;
 import reactor.util.function.Tuples;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction.clientRegistrationId;
@@ -74,18 +77,35 @@ public class ThreadRequestService {
       .bodyToFlux(ThreadPost.class);
   }
 
-  public Mono<ThreadPost> findThreadById(String id) {
-    return null;
+  public Flux<ThreadPost> getThreadByCityState(String cityState) {
+    return client
+      .post()
+      .uri(threadpostUrl+"/findThreadByCityState")
+      .attributes(clientRegistrationId("google"))
+      .bodyValue(cityState)
+      .accept(MediaType.APPLICATION_JSON)
+      .retrieve()
+      .bodyToFlux(ThreadPost.class);
   }
 
-    public Mono<ThreadPost> addPostToThreadPost(ThreadPost threadPost, Post post) {
-      Pair<ThreadPost, Post> threadPostPostPair = new Pair<>(threadPost, post);
-      return client
-        .post()
-        .uri(threadpostUrl+"/addPostToThread")
-        .bodyValue(threadPostPostPair)
-        .accept(MediaType.APPLICATION_JSON)
-        .retrieve()
-        .bodyToMono(ThreadPost.class);
-    }
+  public Mono<ThreadPost> findThreadById(String id) {
+    return client
+      .get()
+      .uri(threadpostUrl+"/threadById/"+id)
+      .accept(MediaType.APPLICATION_JSON)
+      .retrieve()
+      .bodyToMono(ThreadPost.class);
+  }
+
+  public Mono<ThreadPost> addPostToThreadPost(ThreadPost threadPost) {
+    return client
+      .post()
+      .uri(threadpostUrl+"/addPostToThread")
+      .contentType(MediaType.APPLICATION_JSON)
+      .bodyValue(threadPost)
+      .accept(MediaType.APPLICATION_JSON)
+      .retrieve()
+      .bodyToMono(ThreadPost.class);
+  }
+
 }

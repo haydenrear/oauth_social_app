@@ -23,7 +23,8 @@ import {MatInputModule} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
 import {ThreadItemServiceService} from "./thread-item-service.service";
-import { AppEmailMessageComponent } from './app-email-message/app-email-message.component';
+import { PhotoComponent } from './photo/photo.component';
+import { ThreadItemDTOComponent } from './thread-item-dto/thread-item-dto.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { AppEmailMessageComponent } from './app-email-message/app-email-message.
     ThreadItemComponent,
     PostComponent,
     RegionComponent,
-    AppEmailMessageComponent,
+    PhotoComponent,
+    ThreadItemDTOComponent,
   ],
   imports: [
     BrowserModule,

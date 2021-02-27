@@ -6,12 +6,16 @@ import com.app.thread.service.ThreadService;
 import com.netflix.discovery.shared.Pair;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.codec.multipart.Part;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 @RestController
 @Slf4j
@@ -35,8 +39,18 @@ public class ThreadController {
     }
 
     @PostMapping("/addPostToThread")
-    public Mono<ThreadPost> addPostToThread(@RequestBody Pair<ThreadPost, Post> threadPostPostPair){
-        return threadService.addPost(threadPostPostPair);
+    public Mono<ThreadPost> addPostToThread(@RequestBody ThreadPost threadPost){
+        Optional<Post> postFound =  threadPost
+                .getPosts()
+                .stream()
+                .filter(post -> post.getId() == null)
+                .findFirst();
+        if(postFound.isPresent()){
+            return threadService.addPost(threadPost, postFound.get());
+        }
+        else {
+            return Mono.empty();
+        }
     }
 
     @PostMapping("/findThreadByZip")
@@ -49,10 +63,19 @@ public class ThreadController {
         return threadService.findThreadByState(state);
     }
 
+    @PostMapping("/findByCityState")
+    public Flux<ThreadPost> findByCityState(@RequestBody String cityState){
+        return threadService.findThreadByAddress(cityState);
+    }
+
     @PostMapping("/findThreadByAddress")
     public Flux<ThreadPost> findThreadByAddress(@RequestBody String address){
         return threadService.findThreadByAddress(address);
     }
 
+    @GetMapping("/threadById{id}")
+    public Mono<ThreadPost> findThreadById(@PathVariable("id") String id){
+        return threadService.findThreadById(id);
+    }
 
 }

@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class ThreadService {
@@ -29,7 +32,12 @@ public class ThreadService {
     }
 
     public Mono<ThreadPost> addThread(ThreadPost threadPost) {
-        return threadRepo.save(threadPost);
+        return threadRepo.save(threadPost)
+                .map(threadSaved -> {
+                    threadSaved.getRegion().setThreadPostId(threadSaved.getId());
+                    regionService.saveRegionWithPoint(threadSaved.getRegion()).subscribe();
+                    return threadSaved;
+                });
     }
 
     public Flux<ThreadPost> findThreadByZip(String zipcode) {
@@ -47,12 +55,15 @@ public class ThreadService {
                 .flatMap(region -> threadRepo.findById(region.getThreadPostId().toString()));
     }
 
-    public Mono<ThreadPost> addPost(Pair<ThreadPost, Post> threadPost) {
-        return postRepo.save(threadPost.second())
+    public Mono<ThreadPost> addPost(ThreadPost threadPost, Post post) {
+        return postRepo.save(post)
             .map(postRet -> {
-                threadPost.second().setId(postRet.getId());
-                return threadPost.first();
+                threadPost.setId(postRet.getId());
+                return threadPost;
             }).flatMap(threadRepo::save);
     }
 
+    public Mono<ThreadPost> findThreadById(String id) {
+        return threadRepo.findById(id);
+    }
 }

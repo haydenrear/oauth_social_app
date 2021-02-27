@@ -19,7 +19,11 @@
   width: 100%;
 }
 
+mat-form-field.fitWidth {
+  width: 100%;
+}
+
 mat-form-field {
-  width: 50%;
+  width: 100%;
 }
 

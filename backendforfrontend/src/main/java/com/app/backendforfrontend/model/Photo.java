@@ -1,19 +1,18 @@
 package com.app.backendforfrontend.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-
+@Component
+@Scope("prototype")
 @Data
-@Component(value = "appMessage")
-@Scope(value = "prototype")
-public class AppEmailMessage {
+@NoArgsConstructor
+public class Photo {
 
-  String text;
-  String from;
-  String to;
-  File file;
+    byte [] binary;
+    String fileType;
+    String id;
 
 }

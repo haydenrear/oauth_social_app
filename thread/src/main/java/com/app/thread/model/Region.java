@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
@@ -30,25 +31,24 @@ public class Region {
     @Id
     String id;
 
-    RegionService regionService;
+    @Autowired
+    private RegionService regionService;
 
     String threadPostId;
 
     String zip;
     String address;
     String state;
-    String region;
     String city;
 
     @GeoSpatialIndexed(name="zipPoly")
     private GeoJsonPolygon zipPoly;
     private GeoJsonPoint location;
 
-    public Region(String zip, String address, String state, String region, String city) {
+    public Region(String zip, String address, String state, String city) {
         this.zip = zip;
         this.address = address;
         this.state = state;
-        this.region = region;
         this.city = city;
     }
 
@@ -58,9 +58,6 @@ public class Region {
                 .subscribe();
     }
 
-    public void setRegionService(RegionService regionService){
-        this.regionService = regionService;
-    }
 
     public void setLocation(Tuple2<GeoJsonPolygon, GeoJsonPoint> locationData){
         this.location = locationData.getT2();

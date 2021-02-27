@@ -28,18 +28,16 @@ public class ThreadPost {
 
     List<Post> posts;
 
-    String name;
-    byte [] image;
+    String imageId;
 
     Region region;
     String email;
     int numBedrooms;
     int numBathrooms;
 
-    public ThreadPost(List<Post> posts, String name, byte[] image, Region region, String email, int numBedrooms, int numBathrooms) {
+    public ThreadPost(List<Post> posts, String imageId, Region region, String email, int numBedrooms, int numBathrooms) {
         this.posts = posts;
-        this.name = name;
-        this.image = image;
+        this.imageId = imageId;
         this.region = region;
         this.email = email;
         this.numBedrooms = numBedrooms;

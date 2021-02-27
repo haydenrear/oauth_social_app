@@ -13,5 +13,4 @@ import java.util.List;
 @Repository
 public interface ThreadRepo extends ReactiveMongoRepository<ThreadPost, String> {
     Flux<ThreadPost> findAllByRegion(Region region);
-    Mono<ThreadPost> findByNameIs(String name);
 }

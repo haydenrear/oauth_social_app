@@ -56,12 +56,16 @@ public class Config {
 
     @Bean
     SecurityWebFilterChain filterChain(ServerHttpSecurity http){
-        http.oauth2Client().and()
+        http.oauth2Client().and().csrf().disable()
                 .authorizeExchange(authorize -> authorize
                         .pathMatchers(HttpMethod.GET, "/threadPost/**").authenticated()
                         .pathMatchers(HttpMethod.GET, "/login/**").authenticated()
                         .pathMatchers(HttpMethod.GET, "/filterBy/**").permitAll()
                         .pathMatchers(HttpMethod.GET,"/**").permitAll()
+                        .pathMatchers(HttpMethod.POST, "/newProperty/**").permitAll()
+                        .pathMatchers(HttpMethod.POST, "/getPhotos/**").permitAll()
+                        .pathMatchers(HttpMethod.POST, "/uploadPhoto/**").permitAll()
+                        .pathMatchers(HttpMethod.POST, "/newPost/**").permitAll()
                 ).oauth2Login()
                 .clientRegistrationRepository(googleRegistrationRepository())
                 .and().oauth2ResourceServer().jwt();
@@ -99,7 +103,10 @@ public class Config {
     @Bean
     public WebClient webClient(ReactiveOAuth2AuthorizedClientManager authorizedClientManager, WebClient.Builder builder) {
         ServerOAuth2AuthorizedClientExchangeFilterFunction oauth =new ServerOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
-        return builder.filter(oauth).build();
+        return builder.filter(oauth)
+          .codecs(configurer -> {
+            configurer.defaultCodecs().maxInMemorySize(1024*1024*50);
+          }).build();
     }
 
     @Bean

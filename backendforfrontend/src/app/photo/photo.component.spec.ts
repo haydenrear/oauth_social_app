@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AppEmailMessageComponent } from './app-email-message.component';
+import { PhotoComponent } from './photo.component';
 
-describe('AppEmailMessageComponent', () => {
-  let component: AppEmailMessageComponent;
-  let fixture: ComponentFixture<AppEmailMessageComponent>;
+describe('PhotoComponent', () => {
+  let component: PhotoComponent;
+  let fixture: ComponentFixture<PhotoComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AppEmailMessageComponent ]
+      declarations: [ PhotoComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AppEmailMessageComponent);
+    fixture = TestBed.createComponent(PhotoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

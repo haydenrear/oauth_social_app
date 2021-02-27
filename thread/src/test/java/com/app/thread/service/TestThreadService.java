@@ -26,7 +26,7 @@ public class TestThreadService {
         ThreadPost threadPostRet = threadService
                 .addThread(threadPost)
                 .block();
-        threadService.addPost(new Pair<>(threadPostRet, post))
+        threadService.addPost(threadPostRet, post)
                 .subscribe(log::info);
     }
 

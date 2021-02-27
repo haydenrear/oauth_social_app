@@ -1,17 +1,16 @@
 <mat-card>
-  <mat-card-title>{{name}}</mat-card-title>
-  <mat-card-subtitle>{{region.state}}</mat-card-subtitle>
-  <mat-card-subtitle>{{region.zip}}</mat-card-subtitle>
+  <mat-card-subtitle>{{threadItem?.region?.state}}</mat-card-subtitle>
+  <mat-card-subtitle>{{threadItem?.region?.zip}}</mat-card-subtitle>
   <img mat-card-image src="{{image}}" alt="Image of Property">
   <mat-card-content>
-    <h3>Number of Bedrooms: {{numBedrooms}}</h3>
-    <h3>Number of Bathrooms: {{numBathrooms}}</h3>
+    <h3>Number of Bedrooms: {{threadItem?.numBedrooms}}</h3>
+    <h3>Number of Bathrooms: {{threadItem?.numBathrooms}}</h3>
   </mat-card-content>
   <mat-card-actions class="centered">
     <form #message="ngForm" (submit)="addMessage()" class="stretch">
     <mat-form-field appearance="fill" class="stretch">
       <mat-label>Show Interest</mat-label>
-      <textarea matInput #messageIn class="stretch" [(ngModel)]="emailMessage.text" name="text"></textarea>
+      <textarea matInput #messageIn class="stretch" [(ngModel)]="post.message" name="text"></textarea>
     </mat-form-field>
       <button mat-button type="submit" color="primary" class="stretch">Submit Interest (Please Include Point of Contact)</button>
     </form>

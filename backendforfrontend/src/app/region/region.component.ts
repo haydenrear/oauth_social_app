@@ -8,12 +8,11 @@ import {HttpClient} from "@angular/common/http";
 })
 export class RegionComponent implements OnInit {
 
-  constructor(private http: HttpClient) { }
+  constructor() { }
 
   zip: string;
   address: string;
   state: string;
-  region: string;
   id: string;
   threadPostId: string;
   city: string;

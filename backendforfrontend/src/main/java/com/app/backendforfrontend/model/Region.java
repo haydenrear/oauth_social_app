@@ -17,7 +17,6 @@ public class Region {
   String zip;
   String address;
   String state;
-  String region;
   String city;
 
 }

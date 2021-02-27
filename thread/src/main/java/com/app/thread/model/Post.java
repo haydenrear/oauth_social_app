@@ -16,6 +16,7 @@ public class Post {
     @Id
     String id;
     String message;
+    String fromEmail;
 
     public Post(String message) {
         this.message = message;

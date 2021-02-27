@@ -1,62 +1,69 @@
-import {Component, InjectionToken, Injector, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PostComponent} from "../post/post.component";
 import {RegionComponent} from "../region/region.component";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ThreadItemServiceService} from "../thread-item-service.service";
 import {HttpClient} from "@angular/common/http";
-import {AppEmailMessageComponent} from "../app-email-message/app-email-message.component";
 
-@Component({
-  selector: 'app-thread-item',
-  templateUrl: './thread-item.component.html',
-  styleUrls: ['./thread-item.component.css']
-})
-export class ThreadItemComponent implements OnInit {
+export interface ThreadItemDTO {
 
   id: string;
-  name: string;
-  image: any;
+  imageId: string;
   email: string;
   numBedrooms: number;
   numBathrooms: number;
 
   region: RegionComponent;
   posts: PostComponent [];
-  emailMessage: AppEmailMessageComponent = new AppEmailMessageComponent();
+
+}
+
+@Component({
+  selector: 'app-thread-item',
+  templateUrl: './thread-item.component.html',
+  styleUrls: ['./thread-item.component.css']
+})
+export class ThreadItemComponent implements OnInit, ThreadItemDTO {
+
+  id: string;
+  imageId: string;
+  email: string;
+  numBedrooms: number;
+  numBathrooms: number;
+  post: PostComponent = new PostComponent();
+
+  region: RegionComponent;
+  posts: PostComponent [] = [];
+  threadItem: ThreadItemDTO;
+  image: any;
 
   constructor(private threadService: ThreadItemServiceService,
               private http: HttpClient,
               private activatedRoute: ActivatedRoute,
+              private router: Router
               ) {
   }
 
   ngOnInit(): void {
     this.id = this.activatedRoute.snapshot.params.id;
-
-    const threadItem: ThreadItemComponent = this.threadService.getThread(this.id)[0];
-    this.name = threadItem.name;
-    this.image = threadItem.image;
-    this.email = threadItem.email;
-    this.region = threadItem.region;
-    this.posts= threadItem.posts;
-    this.numBathrooms = threadItem.numBathrooms;
-    this.numBedrooms = threadItem.numBedrooms;
+    if(this.id !== undefined){
+      this.threadItem = this.threadService.getThread(this.id);
+    }
+    console.log(this.threadItem.imageId, " is the image id");
+    this.threadService.getPhoto(this.threadItem.id)
+      .subscribe(photoReturn => {
+        this.image = 'data:image/png;base64,'+photoReturn.binary;
+      });
   }
 
   addMessage() {
-
-    this.emailMessage.to = this.email;
-    this.emailMessage.file = null;
-
-    let post = new PostComponent();
-    post.message = this.emailMessage.text;
-    this.posts.push(post);
-
-    this.http.post<PostComponent>("/newPost", { threadPost: this, message: this.emailMessage})
+    this.threadItem.posts.push(this.post);
+    this.http.post<PostComponent>("/newPost", this.threadItem)
       .subscribe(postReturn => {
         this.posts.push(postReturn);
+        this.threadService.addPost(this.id, postReturn);
+        this.router.navigate(["/thread"])
       });
-
   }
 
 }

@@ -1,18 +1,22 @@
 package com.app.backendforfrontend.controller;
 
-import com.app.backendforfrontend.model.AppEmailMessage;
 import com.app.backendforfrontend.model.Post;
 import com.app.backendforfrontend.model.ThreadPost;
 import com.app.backendforfrontend.threadservice.EmailService;
 import com.app.backendforfrontend.threadservice.ThreadRequestService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.http.MediaType;
+import org.springframework.http.codec.multipart.Part;
 import org.springframework.security.core.AuthenticatedPrincipal;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Optional;
+
 @RestController
+@Log4j2
 public class PostsController {
 
   private final ThreadRequestService threadRequestService;
@@ -46,15 +50,22 @@ public class PostsController {
     return threadRequestService.sendThread(threadPost);
   }
 
-  @PostMapping("/newPost")
-  public Mono<ThreadPost> addPostToThreadPost(@RequestBody ThreadPost threadPost,
-                                              AppEmailMessage message,
-                                              @RequestBody Post post,
-                                              @AuthenticationPrincipal AuthenticatedPrincipal principal){
-    message.setFrom(principal.getName());
-    if(emailService.sendMessage(message)){
-      return threadRequestService.addPostToThreadPost(threadPost, post);
+  @PostMapping(value = "/newPost")
+  public Mono<ThreadPost> addPostToThreadPost(@RequestBody ThreadPost threadItem,
+                                              @AuthenticationPrincipal AuthenticatedPrincipal authenticatedPrincipal) {
+
+    System.out.println(threadItem);
+
+    Optional<Post> post= threadItem
+      .getPosts()
+      .stream()
+      .filter(postFound -> postFound.getId() == null)
+      .findFirst();
+
+    if(post.isPresent() && emailService.sendMessage(post.get().getMessage(), authenticatedPrincipal.getName(), threadItem.getEmail(), null)){
+      return threadRequestService.addPostToThreadPost(threadItem);
     }
+
     return Mono.empty();
   }
 
@@ -71,6 +82,9 @@ public class PostsController {
     }
     else if(filterBy.equalsIgnoreCase("state")){
       return threadRequestService.getThreadByState(filter);
+    }
+    else if(filterBy.equalsIgnoreCase("cityState")){
+      return threadRequestService.getThreadByCityState(filter);
     }
     return null;
   }

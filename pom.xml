@@ -29,7 +29,7 @@
         <module>thread</module>
     </modules>
 
-    <build>
+<!--    <build>-->
 <!--        <plugins>-->
 <!--            <plugin>-->
 <!--                <groupId>com.spotify</groupId>-->
@@ -50,5 +50,5 @@
 <!--                </configuration>-->
 <!--            </plugin>-->
 <!--        </plugins>-->
-    </build>
+<!--    </build>-->
 </project>

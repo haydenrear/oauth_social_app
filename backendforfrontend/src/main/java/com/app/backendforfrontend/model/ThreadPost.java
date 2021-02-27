@@ -20,8 +20,7 @@ public class ThreadPost {
   String id;
   List<Post> posts;
 
-  String name;
-  byte [] image;
+  String imageId;
 
   Region region;
   String email;
