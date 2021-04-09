@@ -92,6 +92,7 @@ public class ThreadRequestService {
     return client
       .get()
       .uri(threadpostUrl+"/threadById/"+id)
+      .attributes(clientRegistrationId("keycloak"))
       .accept(MediaType.APPLICATION_JSON)
       .retrieve()
       .bodyToMono(ThreadPost.class);
@@ -101,6 +102,7 @@ public class ThreadRequestService {
     return client
       .post()
       .uri(threadpostUrl+"/addPostToThread")
+      .attributes(clientRegistrationId("keycloak"))
       .contentType(MediaType.APPLICATION_JSON)
       .bodyValue(threadPost)
       .accept(MediaType.APPLICATION_JSON)
@@ -108,4 +110,13 @@ public class ThreadRequestService {
       .bodyToMono(ThreadPost.class);
   }
 
+  public Flux<ThreadPost> getThreadsByLongitudeAndLatitude(String longitude, String latitude) {
+    return client
+      .get()
+      .uri(threadpostUrl+"/findThreadsByLongitudeAndLatitude/"+longitude+"/"+latitude)
+      .attributes(clientRegistrationId("keycloak"))
+      .accept(MediaType.APPLICATION_JSON)
+      .retrieve()
+      .bodyToFlux(ThreadPost.class);
+  }
 }

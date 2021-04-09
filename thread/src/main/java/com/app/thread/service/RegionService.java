@@ -19,6 +19,8 @@ import reactor.core.publisher.Mono;
 import reactor.util.function.Tuple2;
 import reactor.util.function.Tuples;
 
+import java.util.Optional;
+
 @Service
 public class RegionService {
 
@@ -27,6 +29,9 @@ public class RegionService {
 
     @Value("${google.maps.geocode.api.url}")
     String GEOCODEAPIURL;
+
+    @Value("${google.maps.geocode.api.reverse.url}")
+    String GEOCODEREVERSEURL;
 
     public RegionService(RegionRepo regionRepo, WebClient client, ReactiveMongoTemplate template) {
         this.regionRepo = regionRepo;
@@ -48,11 +53,19 @@ public class RegionService {
                 .map(Tuple2::getT1);
     }
 
-
     public Mono<String> getDataFromGoogle(String byBlank){
         return webClient
                 .get()
                 .uri(GEOCODEAPIURL+byBlank+"&key="+GEOCODEAPIKEY)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(String.class);
+    }
+
+    public Mono<String> getDataByReverse(String byBlank){
+        return webClient
+                .get()
+                .uri(GEOCODEREVERSEURL+byBlank+"&key="+GEOCODEAPIKEY)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(String.class);
@@ -91,5 +104,12 @@ public class RegionService {
                 .map(this::parseData)
                 .map(Tuple2::getT1)
                 .flatMapMany(regionRepo::findByLocationIsWithin);
+    }
+
+    public Flux<Region> findRegionsByLongLat(String longLatitude) {
+        return getDataByReverse(longLatitude)
+                .map(this::parseData)
+                .map(Tuple2::getT1)
+                .flatMapMany(regionRepo::findByLocationIsNearOrderByLocationDesc);
     }
 }

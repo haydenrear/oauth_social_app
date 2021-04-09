@@ -45,6 +45,11 @@ public class ThreadService {
                 .flatMap(region -> threadRepo.findById(region.getThreadPostId().toString()));
     }
 
+    public Flux<ThreadPost> findThreadByLongitudeAndLatitude(String longLatitude) {
+        return regionService.findRegionsByLongLat(longLatitude)
+                .flatMap(region -> threadRepo.findById(region.getThreadPostId().toString()));
+    }
+
     public Flux<ThreadPost> findThreadByState(String state) {
         return regionService.findRegionsNearAny(state)
                 .flatMap(region -> threadRepo.findById(region.getThreadPostId().toString()));

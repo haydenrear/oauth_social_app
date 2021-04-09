@@ -168,4 +168,17 @@ export class ThreadItemServiceService {
   // }
 
 
+  getThreadsWithLongLat(longitude: number, latitude: number): Observable<ThreadItemDTO[]> {
+    if(this.threadToPhoto.size !== 0){
+      return of(Array.from(this.threadItemComponents.values()));
+    }
+    return this.http.get<ThreadItemDTO []>("/threadPost")
+      .pipe(
+        map(item => {
+          this.addThreads(item);
+          console.log(item);
+          return Array.from(this.threadItemComponents.values());
+        })
+      )
+  }
 }

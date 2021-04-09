@@ -39,7 +39,7 @@ public class PhotoService implements ApplicationContextAware {
     return client
       .post()
       .uri(threadpostUrl+"/uploadPhoto")
-      .attributes(clientRegistrationId("google"))
+      .attributes(clientRegistrationId("keycloak"))
       .bodyValue(photo)
       .accept(MediaType.APPLICATION_JSON)
       .retrieve()
@@ -50,7 +50,7 @@ public class PhotoService implements ApplicationContextAware {
     return client
       .post()
       .uri(threadpostUrl+"/uploadPhoto")
-      .attributes(clientRegistrationId("google"))
+      .attributes(clientRegistrationId("keycloak"))
       .body(BodyInserters.fromMultipartData("file",file))
       .retrieve()
       .bodyToMono(Photo.class);
@@ -60,7 +60,7 @@ public class PhotoService implements ApplicationContextAware {
     return client
       .get()
       .uri(threadpostUrl+"/getPhotoById/"+photoId)
-      .attributes(clientRegistrationId("google"))
+      .attributes(clientRegistrationId("keycloak"))
       .accept(MediaType.APPLICATION_JSON)
       .retrieve()
       .bodyToMono(Photo.class);
@@ -70,7 +70,7 @@ public class PhotoService implements ApplicationContextAware {
     return client
       .post()
       .uri(threadpostUrl+"/getPhotosList")
-      .attributes(clientRegistrationId("google"))
+      .attributes(clientRegistrationId("keycloak"))
       .bodyValue(photoIds)
       .accept(MediaType.APPLICATION_JSON)
       .retrieve()

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {map} from "rxjs/internal/operators";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Observable, of} from "rxjs";
+import {fromPromise} from "rxjs/internal-compatibility";
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class UserService {
   notLoggedIn: boolean = true;
 
   loggedInBroad: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true)
+  private coordinates: GeolocationCoordinates;
 
   constructor(private http: HttpClient) { }
 
@@ -30,6 +32,10 @@ export class UserService {
       )
       .subscribe();
     return this.notLoggedIn;
+  }
+
+  checkLocation() {
+    return navigator.geolocation.getCurrentPosition;
   }
 
 }

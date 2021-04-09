@@ -37,7 +37,6 @@ public class GatewayConfig {
                 .build();
     }
 
-
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         http
@@ -48,32 +47,6 @@ public class GatewayConfig {
         return http.build();
     }
 
-//    @Bean
-//    ReactiveClientRegistrationRepository clientRegistrationRepository(){
-//        return new InMemoryReactiveClientRegistrationRepository(clientRegistration());
-//    }
-//
-//    @Bean
-//    ClientRegistration clientRegistration(){
-//        return CommonOAuth2Provider.GITHUB
-//                .getBuilder("github")
-//                .clientId("bdd840ccacd861b65927")
-//                .clientSecret("3a101c1d6332eefafd2969c079f3308709961acc")
-//                .build();
-//    }
 
-//    @Bean
-//    ReactiveClientRegistrationRepository googleRegistrationRepository(){
-//        return new InMemoryReactiveClientRegistrationRepository(clientRegistrationGoogle());
-//    }
-//
-//    @Bean
-//    ClientRegistration clientRegistrationGoogle(){
-//        return CommonOAuth2Provider.GOOGLE
-//                .getBuilder("google")
-//                .clientId("684390368964-6nfsrd7fi33ff4ac9uu686f1k3ve3rsl.apps.googleusercontent.com")
-//                .clientSecret("eqy04nf_4etvdLID-hHkM47c")
-//                .build();
-//    }
 
 }

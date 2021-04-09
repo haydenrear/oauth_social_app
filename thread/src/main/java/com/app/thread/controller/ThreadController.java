@@ -63,6 +63,11 @@ public class ThreadController {
         return threadService.findThreadByState(state);
     }
 
+    @GetMapping("/findThreadsByLongitudeAndLatitude/{longitude}/{latitude}")
+    public Flux<ThreadPost> findThreadByLongitudeAndLatitude(@PathVariable(value = "longitude") String longitude,@PathVariable(value = "longitude") String latitude){
+        return threadService.findThreadByLongitudeAndLatitude(latitude+","+longitude);
+    }
+
     @PostMapping("/findByCityState")
     public Flux<ThreadPost> findByCityState(@RequestBody String cityState){
         return threadService.findThreadByAddress(cityState);
