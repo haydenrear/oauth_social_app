@@ -24,15 +24,21 @@ export class ThreadComponent implements OnInit {
       });
   }
 
-  constructor(private http: HttpClient, private threadService: ThreadItemServiceService, private userService: UserService) { }
+  constructor(private http: HttpClient, private threadService: ThreadItemServiceService) { }
 
   ngOnInit(): void {
-    this.userService.checkLocation()(onSuccess => {
-      //Todo: add this call
+    navigator.geolocation.getCurrentPosition(onSuccess => {
+      console.log("locaiton successfule");
       this.threadService.getThreadsWithLongLat(onSuccess.coords.longitude, onSuccess.coords.latitude)
         .subscribe(threads => {
           this.threadItem = threads;
         });
-    }, onFailure => console.log(onFailure));
+    }, onFailure => {
+      console.log(onFailure)
+      this.threadService.getThreads()
+        .subscribe(threads => {
+          this.threadItem = threads;
+        })
+    });
   }
 }

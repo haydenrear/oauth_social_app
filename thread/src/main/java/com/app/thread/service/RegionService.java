@@ -8,7 +8,9 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+import org.springframework.data.mongodb.core.geo.GeoJsonLineString;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.core.geo.GeoJsonPolygon;
 import org.springframework.http.MediaType;
@@ -48,7 +50,7 @@ public class RegionService {
 
     public Mono<GeoJsonPolygon> setPointZip(Region regionIn){
         return getDataFromGoogle(regionIn.getZip())
-                .map(this::parseData)
+                .map(response -> parseData(response, 0))
                 .doOnNext(regionIn::setLocation)
                 .map(Tuple2::getT1);
     }
@@ -63,6 +65,7 @@ public class RegionService {
     }
 
     public Mono<String> getDataByReverse(String byBlank){
+        System.out.println(GEOCODEREVERSEURL+byBlank+"&key="+GEOCODEAPIKEY);
         return webClient
                 .get()
                 .uri(GEOCODEREVERSEURL+byBlank+"&key="+GEOCODEAPIKEY)
@@ -71,12 +74,12 @@ public class RegionService {
                 .bodyToMono(String.class);
     }
 
-    public Tuple2<GeoJsonPolygon, GeoJsonPoint> parseData(String dataToParse){
+    public Tuple2<GeoJsonPolygon, GeoJsonPoint> parseData(String dataToParse, int latLongIsTwoAddressIsZero){
             try {
                 JSONParser jsonParser = new JSONParser();
                 JSONObject parse = (JSONObject) jsonParser.parse(dataToParse);
                 JSONArray array = (JSONArray) parse.get("results");
-                JSONObject innerObj = (JSONObject) jsonParser.parse(array.get(0).toString());
+                JSONObject innerObj = (JSONObject) jsonParser.parse(array.get(latLongIsTwoAddressIsZero).toString());
                 JSONObject geometry = (JSONObject) jsonParser.parse(innerObj.get("geometry").toString());
                 JSONObject bounds = (JSONObject) jsonParser.parse(geometry.get("bounds").toString());
                 JSONObject northeast = (JSONObject) jsonParser.parse(bounds.get("northeast").toString());
@@ -101,15 +104,44 @@ public class RegionService {
 
     public Flux<Region> findRegionsNearAny(String any) {
         return getDataFromGoogle(any)
-                .map(this::parseData)
+                .map(response -> parseData(response, 0))
                 .map(Tuple2::getT1)
                 .flatMapMany(regionRepo::findByLocationIsWithin);
     }
 
     public Flux<Region> findRegionsByLongLat(String longLatitude) {
         return getDataByReverse(longLatitude)
-                .map(this::parseData)
+                .map(response -> parseData(response, 2))
                 .map(Tuple2::getT1)
+                .map(this::getCenter)
                 .flatMapMany(regionRepo::findByLocationIsNearOrderByLocationDesc);
+    }
+
+    public Point getCenter(GeoJsonPolygon geoJsonPolygon){
+
+        double highestX = 10000d;
+        double lowestX = -10000d;
+        double highestY = 10000d;
+        double lowestY = -10000d;
+
+        for(Point point : geoJsonPolygon.getPoints()){
+            if(point.getX() < lowestX) {
+                lowestX = point.getX();
+            }
+            if(point.getY() > highestY){
+                highestY = point.getY();
+            }
+            if(point.getX() > highestX) {
+                highestX = point.getX();
+            }
+            if(point.getY() < lowestY){
+                lowestY = point.getY();
+            }
+        }
+
+        double centerX = lowestX + ((highestX - lowestX) / 2);
+        double centerY = lowestY + ((highestY - lowestY) / 2);
+
+        return new Point(centerX, centerY);
     }
 }

@@ -64,7 +64,7 @@ public class ThreadController {
     }
 
     @GetMapping("/findThreadsByLongitudeAndLatitude/{longitude}/{latitude}")
-    public Flux<ThreadPost> findThreadByLongitudeAndLatitude(@PathVariable(value = "longitude") String longitude,@PathVariable(value = "longitude") String latitude){
+    public Flux<ThreadPost> findThreadByLongitudeAndLatitude(@PathVariable(value = "longitude") String longitude,@PathVariable(value = "latitude") String latitude){
         return threadService.findThreadByLongitudeAndLatitude(latitude+","+longitude);
     }
 

@@ -75,7 +75,7 @@ public class PostsController {
   }
 
   @GetMapping("/findPropertiesByLongitudeAndLatitude/{longitude}/{latitude}")
-  public Flux<ThreadPost> findThreadPostsByLongAndLat(@PathVariable(value = "longitude") String longitude,@PathVariable(value = "longitude") String latitude){
+  public Flux<ThreadPost> findThreadPostsByLongAndLat(@PathVariable(value = "longitude") String longitude,@PathVariable(value = "latitude") String latitude){
     return threadRequestService.getThreadsByLongitudeAndLatitude(longitude, latitude);
   }
 

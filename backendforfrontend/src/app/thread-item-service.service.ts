@@ -172,7 +172,9 @@ export class ThreadItemServiceService {
     if(this.threadToPhoto.size !== 0){
       return of(Array.from(this.threadItemComponents.values()));
     }
-    return this.http.get<ThreadItemDTO []>("/threadPost")
+    let encodedUri = encodeURI(`/findPropertiesByLongitudeAndLatitude/${longitude}/${latitude}`);
+    console.log(encodedUri);
+    return this.http.get<ThreadItemDTO []>(encodedUri)
       .pipe(
         map(item => {
           this.addThreads(item);

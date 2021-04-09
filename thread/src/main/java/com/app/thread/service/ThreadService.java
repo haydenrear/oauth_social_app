@@ -46,6 +46,7 @@ public class ThreadService {
     }
 
     public Flux<ThreadPost> findThreadByLongitudeAndLatitude(String longLatitude) {
+        System.out.println(longLatitude + " is longitude and latitude");
         return regionService.findRegionsByLongLat(longLatitude)
                 .flatMap(region -> threadRepo.findById(region.getThreadPostId().toString()));
     }

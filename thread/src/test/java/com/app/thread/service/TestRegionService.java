@@ -41,7 +41,7 @@ public class TestRegionService {
         Mono<String> returnStringMono = regionService
                 .getDataFromGoogle(region.getAddress());
         String returnString = returnStringMono.block();
-        Tuple2<GeoJsonPolygon, GeoJsonPoint> point = regionService.parseData(returnString);
+        Tuple2<GeoJsonPolygon, GeoJsonPoint> point = regionService.parseData(returnString, 0);
         assertThat(point.getT1()).isNotNull();
     }
 
