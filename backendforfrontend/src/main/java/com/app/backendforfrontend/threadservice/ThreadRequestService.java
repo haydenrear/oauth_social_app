@@ -38,7 +38,7 @@ public class ThreadRequestService {
     public Flux<ThreadPost> getThread(){
         return client
                 .get().uri(threadpostUrl+"/allThreads")
-                .attributes(clientRegistrationId("google"))
+                .attributes(clientRegistrationId("keycloak"))
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToFlux(ThreadPost.class);
@@ -48,7 +48,7 @@ public class ThreadRequestService {
     return client
       .post()
       .uri(threadpostUrl+"/addThread")
-      .attributes(clientRegistrationId("google"))
+      .attributes(clientRegistrationId("keycloak"))
       .bodyValue(threadPost)
       .accept(MediaType.APPLICATION_JSON)
       .retrieve()
@@ -59,7 +59,7 @@ public class ThreadRequestService {
     return client
       .post()
       .uri(threadpostUrl+"/findThreadByZip")
-      .attributes(clientRegistrationId("google"))
+      .attributes(clientRegistrationId("keycloak"))
       .bodyValue(zipcode)
       .accept(MediaType.APPLICATION_JSON)
       .retrieve()
@@ -70,7 +70,7 @@ public class ThreadRequestService {
     return client
       .post()
       .uri(threadpostUrl+"/findThreadByState")
-      .attributes(clientRegistrationId("google"))
+      .attributes(clientRegistrationId("keycloak"))
       .bodyValue(state)
       .accept(MediaType.APPLICATION_JSON)
       .retrieve()
@@ -81,7 +81,7 @@ public class ThreadRequestService {
     return client
       .post()
       .uri(threadpostUrl+"/findThreadByCityState")
-      .attributes(clientRegistrationId("google"))
+      .attributes(clientRegistrationId("keycloak"))
       .bodyValue(cityState)
       .accept(MediaType.APPLICATION_JSON)
       .retrieve()

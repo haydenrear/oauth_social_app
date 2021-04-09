@@ -12,6 +12,7 @@ import com.mongodb.reactivestreams.client.MongoClients;
 import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.BsonDocument;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,15 +21,21 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.index.Index;
 import org.springframework.data.mongodb.core.index.IndexDirection;
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.oauth2.jwt.NimbusReactiveJwtDecoder;
+import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
+import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.util.List;
-import java.util.stream.IntStream;
 
 @Configuration
 @Log4j2
+@EnableWebFluxSecurity
 public class MongoConfig extends AbstractReactiveMongoConfiguration {
 
+    @Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}")
+    String cert;
 
     @Override
     protected String getDatabaseName() {
@@ -49,6 +56,24 @@ public class MongoConfig extends AbstractReactiveMongoConfiguration {
                 .getCollection("region")
                 .createIndex(Indexes.geo2dsphere("zipPoly"));
         return client;
+    }
+
+
+    @Bean
+    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
+        http
+                .csrf()
+                .disable()
+                .authorizeExchange(auth -> auth
+                        .anyExchange().authenticated()
+                ).oauth2ResourceServer()
+                .jwt().jwtDecoder(decoder());
+        return http.build();
+    }
+
+    @Bean
+    ReactiveJwtDecoder decoder(){
+        return NimbusReactiveJwtDecoder.withJwkSetUri(cert).build();
     }
 
 //    @Bean
