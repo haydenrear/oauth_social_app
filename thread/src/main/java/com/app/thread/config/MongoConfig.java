@@ -9,18 +9,13 @@ import com.mongodb.MongoClientSettings;
 import com.mongodb.client.model.Indexes;
 import com.mongodb.reactivestreams.client.MongoClient;
 import com.mongodb.reactivestreams.client.MongoClients;
+import com.mongodb.reactivestreams.client.MongoCollection;
 import lombok.extern.log4j.Log4j2;
-import lombok.extern.slf4j.Slf4j;
-import org.bson.BsonDocument;
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractReactiveMongoConfiguration;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
-import org.springframework.data.mongodb.core.index.Index;
-import org.springframework.data.mongodb.core.index.IndexDirection;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.oauth2.jwt.NimbusReactiveJwtDecoder;
@@ -52,9 +47,10 @@ public class MongoConfig extends AbstractReactiveMongoConfiguration {
                 .retryWrites(true)
                 .build();
         MongoClient client = MongoClients.create(settings);
-        client.getDatabase(getDatabaseName())
-                .getCollection("region")
-                .createIndex(Indexes.geo2dsphere("zipPoly"));
+        MongoCollection<Document> region = client.getDatabase(getDatabaseName())
+                .getCollection("region");
+        region.createIndex(Indexes.geo2dsphere("zipPoly"));
+        region.createIndex(Indexes.geo2dsphere("location"));
         return client;
     }
 

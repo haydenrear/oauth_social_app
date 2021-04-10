@@ -117,7 +117,7 @@ public class RegionService {
                 .flatMapMany(regionRepo::findByLocationIsNearOrderByLocationDesc);
     }
 
-    public Point getCenter(GeoJsonPolygon geoJsonPolygon){
+    public GeoJsonPoint getCenter(GeoJsonPolygon geoJsonPolygon){
 
         double highestX = 10000d;
         double lowestX = -10000d;
@@ -142,6 +142,6 @@ public class RegionService {
         double centerX = lowestX + ((highestX - lowestX) / 2);
         double centerY = lowestY + ((highestY - lowestY) / 2);
 
-        return new Point(centerX, centerY);
+        return new GeoJsonPoint(centerX, centerY);
     }
 }

@@ -64,23 +64,23 @@
     <column id="36" parent="10" name="_id">
       <DataType>ObjectId(0)|12s</DataType>
     </column>
-    <column id="37" parent="10" name="binary">
-      <DataType>Binary(0)|12s</DataType>
-    </column>
-    <column id="38" parent="10" name="fileType">
+    <column id="37" parent="10" name="_class">
       <DataType>String(0)|12s</DataType>
     </column>
-    <column id="39" parent="10" name="_class">
-      <Position>1</Position>
+    <column id="38" parent="10" name="binary">
+      <DataType>Binary(0)|12s</DataType>
+    </column>
+    <column id="39" parent="10" name="fileType">
       <DataType>String(0)|12s</DataType>
     </column>
     <column id="40" parent="11" name="_id">
       <DataType>ObjectId(0)|12s</DataType>
     </column>
-    <column id="41" parent="11" name="_class">
+    <column id="41" parent="11" name="message">
       <DataType>String(0)|12s</DataType>
     </column>
-    <column id="42" parent="11" name="message">
+    <column id="42" parent="11" name="_class">
+      <Position>1</Position>
       <DataType>String(0)|12s</DataType>
     </column>
     <column id="43" parent="12" name="_id">
@@ -89,16 +89,16 @@
     <column id="44" parent="12" name="_class">
       <DataType>String(0)|12s</DataType>
     </column>
-    <column id="45" parent="12" name="address">
+    <column id="45" parent="12" name="city">
       <DataType>String(0)|12s</DataType>
     </column>
-    <column id="46" parent="12" name="city">
-      <DataType>String(0)|12s</DataType>
-    </column>
-    <column id="47" parent="12" name="location">
+    <column id="46" parent="12" name="location">
       <DataType>map(0)|4999544s</DataType>
     </column>
-    <column id="48" parent="12" name="state">
+    <column id="47" parent="12" name="state">
+      <DataType>String(0)|12s</DataType>
+    </column>
+    <column id="48" parent="12" name="address">
       <DataType>String(0)|12s</DataType>
     </column>
     <column id="49" parent="12" name="location.coordinates">
@@ -132,17 +132,17 @@
     <column id="56" parent="13" name="_id">
       <DataType>ObjectId(0)|12s</DataType>
     </column>
-    <column id="57" parent="13" name="_class">
+    <column id="57" parent="13" name="email">
       <DataType>String(0)|12s</DataType>
     </column>
-    <column id="58" parent="13" name="email">
+    <column id="58" parent="13" name="imageId">
       <DataType>String(0)|12s</DataType>
     </column>
-    <column id="59" parent="13" name="imageId">
-      <DataType>String(0)|12s</DataType>
-    </column>
-    <column id="60" parent="13" name="numBathrooms">
+    <column id="59" parent="13" name="numBathrooms">
       <DataType>Integer|4s</DataType>
+    </column>
+    <column id="60" parent="13" name="_class">
+      <DataType>String(0)|12s</DataType>
     </column>
     <column id="61" parent="13" name="numBedrooms">
       <Position>1</Position>

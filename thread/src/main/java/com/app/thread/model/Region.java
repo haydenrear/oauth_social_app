@@ -41,7 +41,6 @@ public class Region {
     String state;
     String city;
 
-    @GeoSpatialIndexed(name="zipPoly")
     private GeoJsonPolygon zipPoly;
     private GeoJsonPoint location;
 
