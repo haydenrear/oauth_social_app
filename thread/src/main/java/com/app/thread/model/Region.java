@@ -31,9 +31,6 @@ public class Region {
     @Id
     String id;
 
-    @Autowired
-    private RegionService regionService;
-
     String threadPostId;
 
     String zip;
@@ -50,13 +47,6 @@ public class Region {
         this.state = state;
         this.city = city;
     }
-
-    public void saveRegion(){
-        regionService
-                .saveRegionWithPoint(this)
-                .subscribe();
-    }
-
 
     public void setLocation(Tuple2<GeoJsonPolygon, GeoJsonPoint> locationData){
         this.location = locationData.getT2();
