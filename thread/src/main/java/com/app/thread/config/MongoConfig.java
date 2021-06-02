@@ -1,9 +1,5 @@
 package com.app.thread.config;
 
-import com.app.thread.model.Post;
-import com.app.thread.model.ThreadPost;
-import com.app.thread.repo.PostRepo;
-import com.app.thread.repo.ThreadRepo;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.model.Indexes;
@@ -22,7 +18,6 @@ import org.springframework.security.oauth2.jwt.NimbusReactiveJwtDecoder;
 import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.web.reactive.function.client.WebClient;
-
 
 @Configuration
 @Log4j2

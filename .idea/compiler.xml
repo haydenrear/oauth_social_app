@@ -10,13 +10,12 @@
         <module name="thread" />
         <module name="backendforfrontend" />
         <module name="servicediscovery" />
-        <module name="gateway" />
         <module name="email" />
+        <module name="gateway" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="backendforfrontend" target="11" />
-      <module name="email" target="11" />
       <module name="gateway" target="11" />
       <module name="parent" target="11" />
       <module name="servicediscovery" target="11" />
@@ -26,7 +25,6 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="backendforfrontend" options="-parameters" />
-      <module name="email" options="-parameters" />
       <module name="gateway" options="-parameters" />
       <module name="parent" options="-parameters" />
       <module name="servicediscovery" options="-parameters" />
