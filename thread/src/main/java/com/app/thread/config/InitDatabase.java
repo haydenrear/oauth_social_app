@@ -87,7 +87,7 @@ public class InitDatabase implements ApplicationContextAware {
     public ThreadPost threadPost(Post post, Photo photo){
         List<Post> postList = List.of(post, post, post, post);
         Region region = ctx.getBean(Region.class, "97219", "2085 oakmont way, Eugene OR", "Oregon", "eugene");
-        return new ThreadPost(postList, photo.getId(), region, "***REMOVED***.rear@gmail.com", 1, 1);
+        return new ThreadPost(postList, photo.getId(), region, "hayden.rear@gmail.com", 1, 1);
     }
 
     @Override

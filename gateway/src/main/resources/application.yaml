@@ -29,7 +29,7 @@ spring:
             issuer-uri: http://localhost:8080/auth/realms/master
         registration:
           keycloak:
-            client-secret: 35168c23-6a64-415f-a28e-a035e2611bc7
+            client-secret: 928b57f4-f603-4aed-9b4d-acc47c09e5d2
             client-id: gateway
       resource:
         jwk:
