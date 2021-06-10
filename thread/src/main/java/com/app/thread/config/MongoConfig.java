@@ -35,7 +35,7 @@ public class MongoConfig extends AbstractReactiveMongoConfiguration {
     @Override
     public MongoClient reactiveMongoClient() {
         ConnectionString connString = new ConnectionString(
-                "mongodb+srv://hayden:Goldmine423@alpaca.olrez.mongodb.net/app?retryWrites=true&w=majority"
+                "mongodb+srv://***REPLACE***:***REPLACE***@alpaca.olrez.mongodb.net/app?retryWrites=true&w=majority"
         );
         MongoClientSettings settings = MongoClientSettings.builder()
                 .applyConnectionString(connString)
